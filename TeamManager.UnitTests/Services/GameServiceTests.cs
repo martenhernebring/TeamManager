@@ -17,14 +17,17 @@ public class Tests
         mockRepository = new Mock<IGameRepository>();
         DateTime now = DateTime.UtcNow;
         DateTime aMonthInThePast = now.AddMonths(-1);
-        previousGame = new SoccerGame("MyGame2", aMonthInThePast);
+        previousGame = new SoccerGame("MyGame1", aMonthInThePast);
         List<Game> games = new List<Game>();
         games.Add(previousGame);
         DateTime aMonthFromNow = now.AddMonths(1);
-        games.Add(new SoccerGame("MyGame1", aMonthFromNow));
+        games.Add(new SoccerGame("MyGame2", aMonthFromNow));
         mockRepository.Setup(repo => repo
             .findAll("MyTeam"))
             .Returns(games);
+        mockRepository.Setup(repo => repo
+            .findAll("NewTeam"))
+            .Returns(new List<Game>());
         service = new GameService(mockRepository.Object);
     }
 
@@ -41,6 +44,15 @@ public class Tests
         List<Game> allMyTeamsGames = service.getAllPrevious("MyTeam");
         Assert.That(allMyTeamsGames.First(), Is.EqualTo(previousGame));
     }
+
+    [Test]
+    public void newlyRegisteredTeamManagerViewIsEmpty()
+    {
+        List<Game> noRegFutureGames = service.getAllFuture("NewTeam");
+        List<Game> noRegPastGames = service.getAllPrevious("NewTeam");
+        Assert.That(noRegFutureGames.Count, Is.EqualTo(0));
+        Assert.That(noRegPastGames.Count, Is.EqualTo(0));
+    } 
 
     [Test]
     public void addAGameToMyTeamCallsSaveInRepositoryOnce()

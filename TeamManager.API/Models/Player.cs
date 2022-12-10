@@ -15,5 +15,10 @@ namespace TeamManager.API.Models
         {
             return jersey;
         }
+
+        internal object getTeam()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

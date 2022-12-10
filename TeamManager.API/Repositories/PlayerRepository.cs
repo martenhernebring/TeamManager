@@ -12,7 +12,9 @@ namespace TeamManager.API.Repositories
 
         public List<Player> findAll(string team)
         {
-            return players;
+            return players
+                .Where(player => player.getTeam().Equals(team))
+                .ToList();
         }
         
         public void save(Player player)

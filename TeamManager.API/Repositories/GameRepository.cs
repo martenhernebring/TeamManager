@@ -11,7 +11,9 @@ namespace TeamManager.API.Repositories
         private List<Game> games = new List<Game>();
         public List<Game> findAll(string team)
         {
-            return games;
+            return games
+                .Where(game => game.getTeam().Equals(team))
+                .ToList();
         }
 
         public void save(Game game)

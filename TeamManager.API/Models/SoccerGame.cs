@@ -16,6 +16,11 @@ namespace TeamManager.API.Models
             this.time = time;
         }
 
+        public string getTeam()
+        {
+            return team;
+        }
+
         public DateTime getTime()
         {
             return time;

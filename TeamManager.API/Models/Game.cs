@@ -7,6 +7,7 @@ namespace TeamManager.API.Models
 {
     public interface Game
     {
+        public string getTeam();
         public DateTime getTime();
     }
 }
