@@ -1,3 +1,6 @@
+using TeamManager.API.Models;
+using TeamManager.API.Services;
+
 namespace TeamManager.UnitTests.Services;
 
 public class Tests
@@ -8,8 +11,10 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void viewAllMyTeamsGamesReturnsEmptyWhenNoGamesWasFound()
     {
-        Assert.Pass();
+        TeamManagerService service = new TeamManagerService();
+        List<Game> allMyTeamsGames = service.getAll("MyTeam");
+        Assert.That(allMyTeamsGames.Count, Is.EqualTo(0));
     }
 }
