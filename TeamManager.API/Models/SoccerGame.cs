@@ -7,12 +7,12 @@ namespace TeamManager.API.Models
 {
     public class SoccerGame : Game
     {
-        private string name;
+        private string team;
         private DateTime time;
 
-        public SoccerGame(string name, DateTime time)
+        public SoccerGame(string team, DateTime time)
         {
-            this.name = name;
+            this.team = team;
             this.time = time;
         }
 
