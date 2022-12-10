@@ -4,7 +4,7 @@ namespace TeamManager.API.Repositories
 {
     public interface IGameRepository
     {
-        List<Game> findAll(string team);
-        void save(Game game);
+        public List<Game> findAll(string team);
+        public void save(Game game);
     }
 }

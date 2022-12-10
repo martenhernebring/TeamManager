@@ -8,19 +8,21 @@ namespace TeamManager.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        public void delete(Player player)
-        {
-            throw new NotImplementedException();
-        }
+        private List<Player> players = new List<Player>();
 
+        public List<Player> findAll(string team)
+        {
+            return players;
+        }
+        
         public void save(Player player)
         {
-            throw new NotImplementedException();
+            players.Add(player);
         }
 
-        List<Player> IPlayerRepository.findAll(string team)
+        public void delete(Player player)
         {
-            throw new NotImplementedException();
+            players.Remove(player);
         }
     }
 }

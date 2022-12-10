@@ -8,14 +8,15 @@ namespace TeamManager.API.Repositories
 {
     public class GameRepository : IGameRepository
     {
+        private List<Game> games = new List<Game>();
         public List<Game> findAll(string team)
         {
-            throw new NotImplementedException();
+            return games;
         }
 
         public void save(Game game)
         {
-            throw new NotImplementedException();
+            games.Add(game);
         }
     }
 }
