@@ -6,7 +6,7 @@ using TeamManager.API.Models;
 
 namespace TeamManager.API.Repositories
 {
-    public class TeamRepository : ITeamRepository
+    public class GameRepository : IGameRepository
     {
         public List<Game> findAll(string team)
         {

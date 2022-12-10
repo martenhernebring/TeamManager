@@ -7,22 +7,17 @@ using TeamManager.API.Repositories;
 
 namespace TeamManager.API.Services
 {
-    public class TeamManagerService : ITeamManagerService
+    public class GameService : IGameService
     {
-        private readonly ITeamRepository _repository;
+        private readonly IGameRepository _repository;
 
-        public TeamManagerService(ITeamRepository repository) {
+        public GameService(IGameRepository repository) {
             _repository = repository;
         }
 
         public void add(Game game)
         {
             _repository.save(game);
-        }
-
-        public void add(Game game, DateTime date)
-        {
-            throw new NotImplementedException();
         }
 
         public List<Game> getAllFuture(string team)
