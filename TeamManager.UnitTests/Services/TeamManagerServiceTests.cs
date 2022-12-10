@@ -1,4 +1,4 @@
-namespace TeamManager.UnitTests;
+namespace TeamManager.UnitTests.Services;
 
 public class Tests
 {
