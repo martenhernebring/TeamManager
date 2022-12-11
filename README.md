@@ -1,8 +1,5 @@
 # TeamManager
 
-## Generate bin and objects folder
-Open folder in VsCode using (code .) or similar.
-
 ## Run tests
 (Windows: PowerShell) dotnet test .\TeamManager.UnitTests
 (Linux/Mac) dotnet test ./TeamManager.UnitTests
