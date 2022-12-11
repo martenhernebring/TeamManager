@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 using TeamManager.API.Repositories;
 using TeamManager.API.Services;
@@ -11,10 +12,11 @@ namespace TeamManager.UnitTests.Services
 {
     public class PlayerServiceTests
     {
-        private Mock<IPlayerRepository> mockRepository;
+        private Mock<IPlayerRepository>? mockRepository;
         private int usedJersey;
-        private Player player;
-        private IPlayerService service;
+        private PlayerDto? playerDto;
+        private IPlayerService? service;
+        private Player? player;
 
         [SetUp]
         public void Setup()
@@ -22,18 +24,25 @@ namespace TeamManager.UnitTests.Services
             mockRepository = new Mock<IPlayerRepository>();
             List<Player> players = new List<Player>();
             usedJersey = 11;
-            player = new Player("MyTeam", usedJersey);
+            playerDto = new PlayerDto();
+            playerDto.Team = "MyTeam";
+            playerDto.Jersey = usedJersey;
+            player = new Player();
+            player.Id = 0;
+            player.Team = playerDto.Team;
+            player.Jersey = usedJersey;
             players.Add(player);
             mockRepository.Setup(repo => repo
-                .findAll("MyTeam"))
+                .FindAll("MyTeam"))
                 .Returns(players);
             service = new PlayerService(mockRepository.Object);
+            Assert.NotNull(service);
         }
 
         [Test]
         public void givenOneAddedEarlierViewAllPlayersFromMyTeamReturnsOne()
         {
-            List<Player> allPlayersFromMyTeam = service.getAllFrom("MyTeam");
+            List<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
 
             Assert.That(allPlayersFromMyTeam.Count, Is.EqualTo(1));
         }
@@ -41,23 +50,27 @@ namespace TeamManager.UnitTests.Services
         [Test]
         public void givenOneAddedEarlierViewAllPlayersFromMyTeamReturnsSameJersey()
         {
-            List<Player> allPlayersFromMyTeam = service.getAllFrom("MyTeam");
+            List<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
 
-            Assert.That(allPlayersFromMyTeam.First().getJersey(), Is.EqualTo(usedJersey));
+            Assert.That(allPlayersFromMyTeam.First().Jersey, Is.EqualTo(usedJersey));
         }
 
         [Test]
         public void addAPlayerToMyTeamCallsSaveInRepositoryOnce()
         {
-            service.add(player);
-            mockRepository.Verify(repo => repo.save(It.IsAny<Player>()), Times.Once());
+            Assert.NotNull(playerDto);
+            service!.Add(playerDto!);
+            mockRepository!.Verify(repo => repo.Save(It.IsAny<Player>()), Times.Once());
         }
 
         [Test]
         public void removeAPlayerFromMyTeamCallsDeleteInRepositoryOnce()
         {
-            service.remove(player);
-            mockRepository.Verify(repo => repo.delete(It.IsAny<Player>()), Times.Once());
+            service!.Remove(playerDto!);
+            Assert.NotNull(mockRepository);
+            mockRepository!.Verify(
+                repo => repo.Delete(It.IsAny<string>(), It.IsAny<int>()), 
+                Times.Once());
         }    
     }
 }

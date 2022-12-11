@@ -4,8 +4,8 @@ namespace TeamManager.API.Repositories
 {
     public interface IPlayerRepository
     {
-        public List<Player> findAll(string team);
-        public void save(Player player);
-        public void delete(Player player);
+        public List<Player> FindAll(string team);
+        public void Save(Player player);
+        public void Delete(string team, int jersey);
     }
 }

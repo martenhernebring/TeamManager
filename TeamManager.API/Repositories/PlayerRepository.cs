@@ -8,23 +8,29 @@ namespace TeamManager.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private List<Player> players = new List<Player>();
+        private static List<Player> players = new List<Player>{};
 
-        public List<Player> findAll(string team)
+        public List<Player> FindAll(string team)
         {
             return players
-                .Where(player => player.getTeam().Equals(team))
+                .Where(player => player.Team != null && player.Team.Equals(team))
                 .ToList();
         }
         
-        public void save(Player player)
+        public void Save(Player player)
         {
+           if(players.Count <= 0)
+                player.Id = 0;
+            else
+                player.Id = players.Max(c => c.Id) + 1;
+                
             players.Add(player);
         }
 
-        public void delete(Player player)
+        public void Delete(string team, int jersey)
         {
-            players.Remove(player);
+            List<Player> toBeDeleted = players.FindAll(p => p.Team == team && p.Jersey == jersey);
+            toBeDeleted.ForEach(p => players.Remove(p));
         }
     }
 }

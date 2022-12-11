@@ -1,11 +1,12 @@
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 
 namespace TeamManager.API.Services
 {
     public interface IGameService
     {
-        public void add(Game game);
-        public List<Game> getAllFuture(string team);
-        public List<Game> getAllPrevious(string team);
+        public void Add(AddGame addGame);
+        public List<Game> GetAllFuture(string team);
+        public List<Game> GetAllPrevious(string team);
     }
 }

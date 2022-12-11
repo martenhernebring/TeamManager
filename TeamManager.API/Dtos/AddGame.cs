@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TeamManager.API.Models
+namespace TeamManager.API.Dtos
 {
-    public class SoccerGame : Game
+    public class AddGame
     {
-        public int Id { get; set; }
         public string? Team { get; set; }
         public DateTime Time { get; set; }
     }

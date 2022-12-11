@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace TeamManager.API.Models
 {
-    public interface Game
-    {
-        public string getTeam();
-        public DateTime getTime();
+    public interface Game{
+        public int Id { get; set; }
+        public string? Team { get; set; }
+        public DateTime Time { get; set; }
     }
 }

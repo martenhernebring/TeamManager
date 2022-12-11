@@ -1,11 +1,12 @@
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 
 namespace TeamManager.API.Services
 {
     public interface IPlayerService
     {
-        void add(Player player);
-        public List<Player> getAllFrom(string team);
-        void remove(Player player);
+        void Add(PlayerDto playerDto);
+        public List<Player> GetAllFrom(string team);
+        void Remove(PlayerDto playerDto);
     }
 }

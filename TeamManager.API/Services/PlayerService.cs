@@ -1,3 +1,4 @@
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 using TeamManager.API.Repositories;
 
@@ -11,19 +12,24 @@ namespace TeamManager.API.Services
             _repository = repository;
         }
 
-        public void add(Player player)
+        public void Add(PlayerDto addPlayer)
         {
-            _repository.save(player);
+            Player player = new Player();
+            player.Team = addPlayer.Team;
+            player.Jersey = addPlayer.Jersey;
+            _repository.Save(player);
         }
 
-        public List<Player> getAllFrom(string team)
+        public List<Player> GetAllFrom(string team)
         {
-            return _repository.findAll(team);
+            return _repository.FindAll(team);
         }
 
-        public void remove(Player player)
+        public void Remove(PlayerDto playerDto)
         {
-            _repository.delete(player);
+            if(playerDto.Team !=  null)
+                _repository.Delete(playerDto.Team!, playerDto.Jersey);
+                
         }
     }
 }

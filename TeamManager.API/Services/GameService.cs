@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 using TeamManager.API.Repositories;
 
@@ -15,24 +16,27 @@ namespace TeamManager.API.Services
             _repository = repository;
         }
 
-        public void add(Game game)
+        public void Add(AddGame addGame)
         {
-            _repository.save(game);
+            Game game = new SoccerGame();
+            game.Team = addGame.Team;
+            game.Time = addGame.Time;
+            _repository.Save(game);
         }
 
-        public List<Game> getAllFuture(string team)
+        public List<Game> GetAllFuture(string team)
         {
             return _repository
-                .findAll(team)
-                .Where(game => DateTime.Compare(game.getTime(), DateTime.UtcNow) > 0)
+                .FindAll(team)
+                .Where(game => DateTime.Compare(game.Time, DateTime.UtcNow) > 0)
                 .ToList();
         }
 
-        public List<Game> getAllPrevious(string team)
+        public List<Game> GetAllPrevious(string team)
         {
             return _repository
-                .findAll(team)
-                .Where(game => DateTime.Compare(game.getTime(), DateTime.UtcNow) <= 0)
+                .FindAll(team)
+                .Where(game => DateTime.Compare(game.Time, DateTime.UtcNow) <= 0)
                 .ToList();
         }
     }

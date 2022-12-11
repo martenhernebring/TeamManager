@@ -1,4 +1,5 @@
 using Moq;
+using TeamManager.API.Dtos;
 using TeamManager.API.Models;
 using TeamManager.API.Repositories;
 using TeamManager.API.Services;
@@ -7,49 +8,54 @@ namespace TeamManager.UnitTests.Services;
 
 public class Tests
 {
-    private Mock<IGameRepository> mockRepository;
-    private Game previousGame;
-    private GameService service;
+    private Mock<IGameRepository>? mockRepository;
+    private Game? previousGame;
+    private GameService? service;
 
     [SetUp]
     public void Setup()
     {
         mockRepository = new Mock<IGameRepository>();
+        previousGame = new SoccerGame();
+        previousGame.Team = "MyTeam";
         DateTime now = DateTime.UtcNow;
-        DateTime aMonthInThePast = now.AddMonths(-1);
-        previousGame = new SoccerGame("MyGame1", aMonthInThePast);
+        previousGame.Time = now.AddMonths(-1);
         List<Game> games = new List<Game>();
         games.Add(previousGame);
-        DateTime aMonthFromNow = now.AddMonths(1);
-        games.Add(new SoccerGame("MyGame2", aMonthFromNow));
+        Game futureGame = new SoccerGame();
+        futureGame.Team = "MyTeam";
+        futureGame.Time = now.AddMonths(1);
+        games.Add(futureGame);
         mockRepository.Setup(repo => repo
-            .findAll("MyTeam"))
+            .FindAll("MyTeam"))
             .Returns(games);
         mockRepository.Setup(repo => repo
-            .findAll("NewTeam"))
+            .FindAll("NewTeam"))
             .Returns(new List<Game>());
         service = new GameService(mockRepository.Object);
+        Assert.NotNull(service);
     }
 
     [Test]
     public void givenOnePreviousAndOneFutureViewAllMyTeamsUpcomingGamesReturnsOnlyOneFutureGames()
     {
-        List<Game> allMyTeamsGames = service.getAllFuture("MyTeam");
+        List<Game> allMyTeamsGames = service!.GetAllFuture("MyTeam");
         Assert.That(allMyTeamsGames.Count, Is.EqualTo(1));
     }
 
     [Test]
     public void givenOnePreviousAndOneFutureViewAllMyTeamsPreviousGamesReturnsSameGameFromThePast()
     {
-        List<Game> allMyTeamsGames = service.getAllPrevious("MyTeam");
+        List<Game> allMyTeamsGames = service!.GetAllPrevious("MyTeam");
         Assert.That(allMyTeamsGames.First(), Is.EqualTo(previousGame));
     }
 
     [Test]
     public void newlyRegisteredTeamManagerViewIsEmpty()
     {
-        List<Game> noRegFutureGames = service.getAllFuture("NewTeam");
-        List<Game> noRegPastGames = service.getAllPrevious("NewTeam");
+
+        List<Game> noRegFutureGames = service!.GetAllFuture("NewTeam");
+        List<Game> noRegPastGames = service.GetAllPrevious("NewTeam");
         Assert.That(noRegFutureGames.Count, Is.EqualTo(0));
         Assert.That(noRegPastGames.Count, Is.EqualTo(0));
     } 
@@ -57,8 +63,12 @@ public class Tests
     [Test]
     public void addAGameToMyTeamCallsSaveInRepositoryOnce()
     {
-        service.add(new SoccerGame("MyTeam", DateTime.UtcNow));
-        mockRepository.Verify(repo => repo.save(It.IsAny<Game>()), Times.Once());
+        AddGame addGame = new AddGame();
+        addGame.Team = "MyTeam";
+        addGame.Time = DateTime.UtcNow;
+        service!.Add(addGame);
+        Assert.NotNull(mockRepository);
+        mockRepository!.Verify(repo => repo.Save(It.IsAny<Game>()), Times.Once());
     }
 
 }

@@ -8,16 +8,22 @@ namespace TeamManager.API.Repositories
 {
     public class GameRepository : IGameRepository
     {
-        private List<Game> games = new List<Game>();
-        public List<Game> findAll(string team)
+        private static List<Game> games = new List<Game>{};
+
+        public List<Game> FindAll(string team)
         {
             return games
-                .Where(game => game.getTeam().Equals(team))
+                .Where(game => game.Team != null && game.Team.Equals(team))
                 .ToList();
         }
 
-        public void save(Game game)
+        public void Save(Game game)
         {
+            if(games.Count <= 0)
+                game.Id = 0;
+            else
+                game.Id = games.Max(c => c.Id) + 1;
+
             games.Add(game);
         }
     }

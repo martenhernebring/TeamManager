@@ -2,23 +2,9 @@ namespace TeamManager.API.Models
 {
     public class Player
     {
-        private string team;
-        private int jersey;
+        public int Id { get; set; }
+        public string? Team { get; set; }
+        public int Jersey { get; set; }
 
-        public Player(string team, int jersey)
-        {
-            this.team = team;
-            this.jersey = jersey;
-        }
-
-        public int getJersey()
-        {
-            return jersey;
-        }
-
-        internal object getTeam()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
