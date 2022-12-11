@@ -19,7 +19,7 @@ namespace TeamManager.API.Repositories
         
         public void Save(Player player)
         {
-           if(players.Count <= 0)
+            if(players.Count <= 0)
                 player.Id = 0;
             else
                 player.Id = players.Max(c => c.Id) + 1;
