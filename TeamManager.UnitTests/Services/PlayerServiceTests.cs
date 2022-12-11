@@ -22,7 +22,7 @@ namespace TeamManager.UnitTests.Services
         public void Setup()
         {
             mockRepository = new Mock<IPlayerRepository>();
-            List<Player> players = new List<Player>();
+            HashSet<Player> players = new HashSet<Player>();
             usedJersey = 11;
             playerDto = new PlayerDto();
             playerDto.Team = "MyTeam";
@@ -42,7 +42,7 @@ namespace TeamManager.UnitTests.Services
         [Test]
         public void givenOneAddedEarlierViewAllPlayersFromMyTeamReturnsOne()
         {
-            List<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
+            HashSet<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
 
             Assert.That(allPlayersFromMyTeam.Count, Is.EqualTo(1));
         }
@@ -50,7 +50,7 @@ namespace TeamManager.UnitTests.Services
         [Test]
         public void givenOneAddedEarlierViewAllPlayersFromMyTeamReturnsSameJersey()
         {
-            List<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
+            HashSet<Player> allPlayersFromMyTeam = service!.GetAllFrom("MyTeam");
 
             Assert.That(allPlayersFromMyTeam.First().Jersey, Is.EqualTo(usedJersey));
         }

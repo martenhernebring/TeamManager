@@ -20,7 +20,7 @@ namespace TeamManager.API.Services
             _repository.Save(player);
         }
 
-        public List<Player> GetAllFrom(string team)
+        public HashSet<Player> GetAllFrom(string team)
         {
             return _repository.FindAll(team);
         }

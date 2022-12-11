@@ -8,13 +8,13 @@ namespace TeamManager.API.Repositories
 {
     public class GameRepository : IGameRepository
     {
-        private static List<Game> games = new List<Game>{};
+        private static HashSet<Game> games = new HashSet<Game>{};
 
-        public List<Game> FindAll(string team)
+        public HashSet<Game> FindAll(string team)
         {
             return games
                 .Where(game => game.Team != null && game.Team.Equals(team))
-                .ToList();
+                .ToHashSet();
         }
 
         public void Save(Game game)

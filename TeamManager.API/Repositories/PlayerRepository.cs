@@ -8,13 +8,13 @@ namespace TeamManager.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private static List<Player> players = new List<Player>{};
+        private static HashSet<Player> players = new HashSet<Player>{};
 
-        public List<Player> FindAll(string team)
+        public HashSet<Player> FindAll(string team)
         {
             return players
                 .Where(player => player.Team != null && player.Team.Equals(team))
-                .ToList();
+                .ToHashSet();
         }
         
         public void Save(Player player)
@@ -29,8 +29,7 @@ namespace TeamManager.API.Repositories
 
         public void Delete(string team, int jersey)
         {
-            List<Player> toBeDeleted = players.FindAll(p => p.Team == team && p.Jersey == jersey);
-            toBeDeleted.ForEach(p => players.Remove(p));
+            players.RemoveWhere(p => p.Team == team && p.Jersey == jersey);
         }
     }
 }

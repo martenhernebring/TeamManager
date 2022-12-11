@@ -20,7 +20,7 @@ public class Tests
         previousGame.Team = "MyTeam";
         DateTime now = DateTime.UtcNow;
         previousGame.Time = now.AddMonths(-1);
-        List<Game> games = new List<Game>();
+        HashSet<Game> games = new HashSet<Game>();
         games.Add(previousGame);
         Game futureGame = new SoccerGame();
         futureGame.Team = "MyTeam";
@@ -31,7 +31,7 @@ public class Tests
             .Returns(games);
         mockRepository.Setup(repo => repo
             .FindAll("NewTeam"))
-            .Returns(new List<Game>());
+            .Returns(new HashSet<Game>());
         service = new GameService(mockRepository.Object);
         Assert.NotNull(service);
     }
